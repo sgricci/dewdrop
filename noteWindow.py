@@ -28,6 +28,7 @@ class NoteWindow:
 			f.write(icon)
 			f.close()
 
+		self.builder.get_object('noteWindow').set_modal(False)
 		self.builder.get_object('noteWindow').set_icon_from_file(app_icon)
 		self.builder.get_object('noteWindow').show()
 		self.builder.get_object('noteWindow').connect('destroy', lambda x: gtk.main_quit())
@@ -36,6 +37,27 @@ class NoteWindow:
 		gtk.main()
 
 	def exit(self, widget, data=None):
-		self.builder.get_object('noteWindow').destroy()
+		
 		gtk.main_quit()
 		sys.exit()
+
+	def send_note(self, widget, data=None):
+		buffer = self.builder.get_object('txtInput').get_buffer()
+		startiter, enditer = buffer.get_bounds()
+		note = buffer.get_text(startiter, enditer)
+
+		combo = self.builder.get_object('cboType')
+		index = combo.get_active()
+		model = combo.get_model()
+		note_type = model[index][0]
+
+		if not note:
+			self.builder.get_object('lblMessage').set_text("Please add a note")
+			return False
+		else:
+			self.builder.get_object('lblMessage').set_text("")
+			# create note
+			self.app.dew.create_note_and_notify(note, note_type)
+			self.builder.get_object('noteWindow').destroy()
+
+		
