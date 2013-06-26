@@ -13,7 +13,16 @@ class DAPI:
 		self.d.set_authentication(email, passhash)
 
 	def upload(self, filename):
-		return self.d.create_file(filename)		
+		return self.d.create_file(filename)
+
+	def note(self, text, content_type):
+		return self.d.create_note(text, content_type)
+
+	def link(self, link, privacy):
+		return self.d.create_link(link, privacy)
+
+	def drops(self):
+		return self.d.list_drops()	
 
 	def account_details(self):
 		return self.d.account_details()

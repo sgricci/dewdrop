@@ -68,7 +68,10 @@ class Droplr:
 
 	def create_file(self, filename):
 		content_type = mimetypes.guess_type(filename)[0]
-		# read file contents
+
+		if content_type is None:
+			content_type = 'application/octet-stream'
+
 		f = file(filename, 'rb')
 		data = f.read()
 		f.close()
@@ -78,9 +81,21 @@ class Droplr:
 		request = self.sign_request(request)
 		return request.execute()
 
+	def create_note(self, data, content_type):
+		request = self.create_request('POST', '/notes', None, content_type, data)
+		request.headers['Content-Length'] = len(data)
+		request = self.sign_request(request)
+		return request.execute()
+
+	def create_link(self, data, privacy="PUBLIC"):
+		request = self.create_request('POST', '/links', {'privacy': privacy}, 'text/plain', data)
+		request.headers['Content-Length'] = len(data)
+		request = self.sign_request(request)
+		return request.execute()
+
 
 	def list_drops(self):
-		request = self.create_request('GET', '/drops', None, None, None)
+		request = self.create_request('GET', '/drops', {'amount': '5'}, None, None)
 		request = self.sign_request(request)
 		return request.execute()
 
