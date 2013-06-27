@@ -13,6 +13,7 @@ class About:
 		self.about = gtk.AboutDialog()
 		self.about.set_program_name("DewDrop")
 		self.about.set_version(version.get_version())
+		self.about.set_authors(['Steve Gricci', 'Adam Galloway'])
 		self.about.set_copyright("(c) Steve Gricci")
 		self.about.set_comments("DewDrop is a Droplr client for Linux\n\nApplication Icon used under CC-Attribution-NonCommercial license from http://dapinographics.com")
 		self.about.set_website("http://dewdropapp.tumblr.com")
