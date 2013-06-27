@@ -7,6 +7,7 @@ from loginWindow import LoginWindow
 from dapi import DAPI
 from dewdrop import DewDrop
 from version import new_version
+import gtk
 
 class App:
 	def __init__(self):
@@ -28,6 +29,8 @@ class App:
 		self._cfg.set('email', None)
 		self._cfg.set('passhash', None)
 		self._cfg.save()
+
+		delattr(self, 'dew')
 		self.show_login()
 
 	def show_login(self):

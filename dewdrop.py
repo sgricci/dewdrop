@@ -24,6 +24,7 @@ class DewDrop:
 	def __init__(self, app):
 		self._app = app
 		self._app.dew = self
+
 		icons = gtk.IconTheme()
 		app_icon = "tray"
 		try:
@@ -35,9 +36,12 @@ class DewDrop:
 			f.write(icon)
 			f.close()
 		
-		self.statusIcon = appindicator.Indicator('Dewdrop', app_icon, appindicator.CATEGORY_APPLICATION_STATUS)
-		self.statusIcon.set_status(appindicator.STATUS_ACTIVE)
+		if not hasattr(self._app, 'statusIcon'):
+			self._app.statusIcon = appindicator.Indicator('Dewdrop', app_icon, appindicator.CATEGORY_APPLICATION_STATUS)
+		self._app.statusIcon.set_status(appindicator.STATUS_ACTIVE)
+
 		self.init_menu()
+
 		self.dapi = DAPI()
 		self.dapi.auth(self._app._cfg.get('email'), self._app._cfg.get('passhash'))
 
@@ -91,9 +95,20 @@ class DewDrop:
 		menu.append(about)
 		menu.append(logout)
 		menu.append(quit)
-		self.statusIcon.set_menu(menu)
+		self._app.statusIcon.set_menu(menu)
 
 		menu.connect("show", self.show_recent)
+
+
+	def hide(self):
+		# close open windows
+		window_list = gtk.window_list_toplevels()
+		for window in window_list:
+			if gtk.WINDOW_TOPLEVEL == window.get_window_type():
+				window.destroy()
+		self._app.statusIcon.set_status(appindicator.STATUS_PASSIVE)
+		self._app.statusIcon.get_menu().destroy()
+		gtk.main_quit()
 
 
 	def show_recent(self, widget):
@@ -214,7 +229,7 @@ class DewDrop:
 		about.show()
 
 	def logout(self, widget):
-		self.statusIcon.set_visible(False)
+		self.hide()
 		self._app.logout()
 
 	def quit(self, widget):
