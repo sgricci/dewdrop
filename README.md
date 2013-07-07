@@ -20,3 +20,9 @@ Application Icon used under CC-Attribution-NonCommercial license from http://dap
 # License
 
 GPL v2
+
+# Obtaining API Keys
+
+In order to develop for the Droplr API, you'll need to obtain a set of API keys.
+
+More information can be found here: http://help.droplr.com/customer/portal/articles/1014091-introduction
