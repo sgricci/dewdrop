@@ -4,7 +4,7 @@ pygtk.require('2.0')
 
 import gtk
 
-from about import About
+from windows.about import About
 from windows.noteWindow import NoteWindow
 from windows.dropWindow import DropWindow
 from windows.settingsWindow import SettingsWindow
@@ -31,7 +31,7 @@ class DewDrop:
 			assert icons.has_icon(app_icon)
 		except AssertionError:
 			app_icon = "/tmp/tray.png"
-			icon = pkg_resources.resource_string(__name__, 'resources/tray/tray.png')
+			icon = pkg_resources.resource_string(__name__, 'resources/tray/32/dewdrop_32_100.png')
 			f = open(app_icon, "w")
 			f.write(icon)
 			f.close()

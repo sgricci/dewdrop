@@ -14,7 +14,7 @@ class LoginWindow:
 		self.builder.add_from_string(pkg_resources.resource_string(__name__, "../data/ui/login.glade"))
 		self.builder.connect_signals(self)
 		loader = gtk.gdk.PixbufLoader('png')
-		loader.write(pkg_resources.resource_string(__name__, "../resources/icons/icon.png"))
+		loader.write(pkg_resources.resource_string(__name__, "../resources/icon/dewdrop_256.png"))
 		loader.close()
 		icons = gtk.IconTheme()
 		app_icon = "tray"
@@ -22,7 +22,7 @@ class LoginWindow:
 			assert icons.has_icon(app_icon)
 		except AssertionError:
 			app_icon = "/tmp/tray.png"
-			icon = pkg_resources.resource_string(__name__, '../resources/tray/tray.png')
+			icon = pkg_resources.resource_string(__name__, '../resources/tray/32/dewdrop_32_100.png')
 			f = open(app_icon, "w")
 			f.write(icon)
 			f.close()
