@@ -18,13 +18,23 @@ import mimetypes
 
 class Droplr:
 	def __init__(self):
-		self._public_key = '<public key here>'
-		self._private_key = '<private key here>'
-		self.server = '<server name here>'
-		self.port = 8069
-		self.scheme = 'http'
+		try:
+			from dev_settings import (
+				API_PUBLIC_KEY, 
+				API_PRIVATE_KEY,
+				API_PORT,
+				API_SERVER,
+				API_SCHEME)
+		except ImportError:
+			print 'DEBUG: No settings file found'
 
-		self._version = '0.3'
+		self._public_key = API_PUBLIC_KEY
+		self._private_key = API_PRIVATE_KEY
+		self.server = API_SERVER
+		self.port = API_PORT
+		self.scheme = API_SCHEME
+
+		self._version = '1.0'
 
 		self.email = None
 		self.passhash = None
