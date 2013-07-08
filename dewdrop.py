@@ -5,9 +5,9 @@ pygtk.require('2.0')
 import gtk
 
 from about import About
-from noteWindow import NoteWindow
-from dropWindow import DropWindow
-from settingsWindow import SettingsWindow
+from windows.noteWindow import NoteWindow
+from windows.dropWindow import DropWindow
+from windows.settingsWindow import SettingsWindow
 from dapi import DAPI
 from config import Config
 import notify

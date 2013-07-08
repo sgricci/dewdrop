@@ -3,7 +3,7 @@
 # App.py
 
 from config import Config
-from loginWindow import LoginWindow
+from windows.loginWindow import LoginWindow
 from dapi import DAPI
 from dewdrop import DewDrop
 from version import new_version
@@ -48,7 +48,6 @@ class App:
 
 	def start(self):
 		self.dew = DewDrop(self)
-		print 'start'
 
 if __name__ == "__main__":
 	app = App()
