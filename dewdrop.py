@@ -211,7 +211,7 @@ class DewDrop:
 		screenshot.save(filename, "png")
 		self.upload_file_and_notify(filename)
 
-	def show_hide_drop(self):
+	def show_hide_drop(self, widget=None):
 		dropzone = self._app._cfg.get('dropzone')
 
 		if hasattr(self, 'drop'):
