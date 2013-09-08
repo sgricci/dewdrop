@@ -86,7 +86,7 @@ class Droplr:
 		data = f.read()
 		f.close()
 
-		request = self.create_request('POST', '/files', {'filename': base64.b64encode(os.path.basename(filename))}, content_type, data)
+		request = self.create_request('POST', '/files', {'filename': os.path.basename(filename)}, content_type, data)
 		request.headers['Content-Length'] = len(data)
 		request = self.sign_request(request)
 		return request.execute()

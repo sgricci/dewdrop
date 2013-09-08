@@ -25,7 +25,7 @@ class App:
 			else:
 				self.logout()
 
-	def logout(self): 
+	def logout(self):
 		self._cfg.set('email', None)
 		self._cfg.set('passhash', None)
 		self._cfg.save()

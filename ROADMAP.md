@@ -9,4 +9,3 @@
 5. Show drop preview next to drop in recent items on hover
 6. View all link in recents
 7. Cache recent entries for 30 minutes (or until a new upload happens locally)
-8. On drop, filename appears as base64 encoded
