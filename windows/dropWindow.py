@@ -33,7 +33,7 @@ class DropWindow:
 		self.builder.connect_signals(self)
 
 		loader = gtk.gdk.PixbufLoader('png')
-		loader.write(pkg_resources.resource_string(__name__, "../resources/icon/dewdrop_256.png"))
+		loader.write(pkg_resources.resource_string(__name__, "../resources/tray/white.png"))
 		loader.close()
 		icons = gtk.IconTheme()
 		app_icon = "tray"
@@ -41,7 +41,7 @@ class DropWindow:
 			assert icons.has_icon(app_icon)
 		except AssertionError:
 			app_icon = "/tmp/tray.png"
-			icon = pkg_resources.resource_string(__name__, '../resources/tray/32/dewdrop_32_100.png')
+			icon = pkg_resources.resource_string(__name__, '../resources/tray/white.png')
 			f = open(app_icon, "w")
 			f.write(icon)
 			f.close()

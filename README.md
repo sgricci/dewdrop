@@ -3,6 +3,7 @@ DewDrop - A Linux Droplr Client
 # Contributors
 * Steve Gricci (@sgricci)
 * Adam Galloway (@adamgalloway-nrg)
+* Uri Herrera ([web](http://nitrux.weebly.com/))
 
 # TODOs
 * Work with Droplr Pro domains
