@@ -119,6 +119,8 @@ class DewDrop:
 		rtn = self.dapi.drops()
 		if rtn.is_error():
 			print rtn.get_message()
+		elif not rtn.get_message():
+			return
 		else:
 			menu = gtk.Menu()
 

@@ -205,7 +205,10 @@ class Droplr_Request:
 class Droplr_Response:
 	def __init__(self, response):
 		self.error = False
-		self.message = json.loads(response)
+		if response:
+			self.message = json.loads(response)
+		else:
+			self.message = None
 
 	def get_message(self):
 		return self.message
