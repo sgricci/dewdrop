@@ -54,7 +54,7 @@ class DewDrop:
 		takescreenshot = gtk.MenuItem("Capture Screenshot...")
 		uploadfile = gtk.MenuItem("Upload a file...")
 		createnote = gtk.MenuItem("Create note...")
-		dropzone = gtk.MenuItem("Show Drop Window")
+		#dropzone = gtk.MenuItem("Show Drop Window")
 		settings = gtk.MenuItem("Settings...")
 		recent = gtk.MenuItem("Recent Drops")
 		about = gtk.MenuItem("About")
@@ -76,12 +76,12 @@ class DewDrop:
 		logout.show()
 		quit.show()
 		takescreenshot.show()
-		dropzone.show()
+		#dropzone.show()
 
 		takescreenshot.connect("activate", self.take_screenshot)
 		createnote.connect("activate", self.create_note)
 		uploadfile.connect("activate", self.upload_file)
-		dropzone.connect("activate", self.show_hide_drop)
+		#dropzone.connect("activate", self.show_hide_drop)
 		settings.connect("activate", self.show_settings)
 		recent.connect("activate", self.show_recent)
 		logout.connect("activate", self.logout)
@@ -91,7 +91,7 @@ class DewDrop:
 		menu.append(takescreenshot)
 		menu.append(uploadfile)
 		menu.append(createnote)
-		menu.append(dropzone)
+		#menu.append(dropzone)
 		menu.append(settings)
 		menu.append(separator1)
 		menu.append(recent)
@@ -129,7 +129,7 @@ class DewDrop:
 					try:
 						title = base64.b64decode(drop['title'])
 					except Exception:
-						print 'not base64'
+						pass
 					
 				title = (title[:27] + '...') if len(title) > 30 else title
 
