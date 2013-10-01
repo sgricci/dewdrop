@@ -3,7 +3,9 @@ import pygtk
 pygtk.require('2.0')
 
 import gtk
+import gobject
 
+gobject.threads_init()
 from windows.about import About
 from windows.noteWindow import NoteWindow
 from windows.dropWindow import DropWindow
@@ -18,6 +20,9 @@ import time
 import appindicator
 import base64
 import webbrowser
+from threading import Thread
+import threading
+import thread
 
 
 class DewDrop:
@@ -148,14 +153,23 @@ class DewDrop:
 
 	def upload_file_and_notify(self, filename):
 		rtn = self.dapi.upload(filename)
+		lock = thread.allocate_lock()
 		if rtn.is_error():
 			print rtn.get_message()
 
-		notify.show(rtn.get_message()['shortlink'])
+		gtk.threads_enter()
+		try:
+			shortlink = rtn.get_message()['shortlink']
+			gobject.idle_add(notify.show, shortlink)
+			gobject.idle_add(self.copy_to_clipboard, shortlink)
+		finally:
+			gtk.threads_leave()
+		return
 
+	def copy_to_clipboard(self, shortlink):
 		clip = gtk.clipboard_get()
 
-		clip.set_text(rtn.get_message()['shortlink'])
+		clip.set_text(shortlink)
 		clip.store()
 
 	def create_note_and_notify(self, text, content_type='text/plain'):
@@ -195,7 +209,11 @@ class DewDrop:
 		if response == gtk.RESPONSE_OK:
 			filename = chooser.get_filename()
 			chooser.destroy()
-			self.upload_file_and_notify(filename)
+			try:
+				t = Thread(target=self.upload_file_and_notify, args=(filename,)).start()
+			except Exception as e:
+				print e
+				print "Failed to start thread"
 		elif response == gtk.RESPONSE_CANCEL:
 			print 'Closed, no files selected'
 			chooser.destroy()
@@ -211,7 +229,11 @@ class DewDrop:
 			shot.sX, shot.sY, 0, 0, shot.width, shot.height)
 		filename = "/tmp/droplr.png"
 		screenshot.save(filename, "png")
-		self.upload_file_and_notify(filename)
+		try:
+			t = Thread(target=self.upload_file_and_notify, args=(filename,)).start()
+		except Exception as e:
+			print e
+			print "Failed to start thread"
 
 	def show_hide_drop(self, widget=None):
 		dropzone = self._app._cfg.get('dropzone')
@@ -263,5 +285,3 @@ class DewDrop:
 	# 	menu.show_all()
 
 	# 	menu.popup(None, None, gtk.status_icon_position_menu, button, time, self.statusIcon)
-
-

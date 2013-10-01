@@ -178,35 +178,39 @@ class DropWindow:
 
 	# from django https://code.djangoproject.com/browser/django/trunk/django/core/validators.py#L47
 	def is_valid_url(self, url):
-	    regex = re.compile(
-	        r'^https?://'  # http:// or https://
-	        r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+[A-Z]{2,6}\.?|'  # domain...
-	        r'localhost|'  # localhost...
-	        r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})' # ...or ip
-	        r'(?::\d+)?'  # optional port
-	        r'(?:/?|[/?]\S+)$', re.IGNORECASE)
-	    return url is not None and regex.search(url)
+		regex = re.compile(
+			r'^https?://'  # http:// or https://
+			r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+[A-Z]{2,6}\.?|'  # domain...
+			r'localhost|'  # localhost...
+			r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})' # ...or ip
+			r'(?::\d+)?'  # optional port
+			r'(?:/?|[/?]\S+)$', re.IGNORECASE)
+		return url is not None and regex.search(url)
 
 
 	def handle_data(self, widget, context, x, y, selection, targetType, time):
-	    if targetType == self.TARGET_TYPE_TEXT:
-	    	if self.is_valid_url(selection.data):
-	    		# create link
-	    		link = selection.data
-	        	self.app.dew.create_link_and_notify(link)
-	        else:
-	        	text = selection.data.strip()
-	        	url = urlparse(text)
-	        	if url.scheme == 'file':
-	        		# upload file
-	        		filename = urllib.url2pathname(text)[7:]
-	        		self.app.dew.upload_file_and_notify(filename)
-	        	else:
-	        		# create note
-	        		self.app.dew.create_note_and_notify(text)
+		if targetType == self.TARGET_TYPE_TEXT:
+			if self.is_valid_url(selection.data):
+				# create link
+				link = selection.data
+				self.app.dew.create_link_and_notify(link)
+			else:
+				text = selection.data.strip()
+				url = urlparse(text)
+				if url.scheme == 'file':
+					# upload file
+					filename = urllib.url2pathname(text)[7:]
+					try:
+						t = Thread(target=self.app.dew.upload_file_and_notify, args=(filename,)).start()
+					except Exception as e:
+						print e
+						print "Failed to start thread"
+				else:
+					# create note
+					self.app.dew.create_note_and_notify(text)
 
-	    elif targetType == self.TARGET_TYPE_JPG or targetType == self.TARGET_TYPE_PNG or targetType == self.TARGET_TYPE_GIF:
-	    	self.handle_image(targetType, selection.data)
+		elif targetType == self.TARGET_TYPE_JPG or targetType == self.TARGET_TYPE_PNG or targetType == self.TARGET_TYPE_GIF:
+			self.handle_image(targetType, selection.data)
 
 	def handle_image(self, targetType, data):
 		filename = "/tmp/droplr"
