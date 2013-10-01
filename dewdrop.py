@@ -131,13 +131,6 @@ class DewDrop:
 
 			for drop in rtn.get_message():
 				title = drop['title']
-				if drop['type'] == 'IMAGE' or drop['type'] == 'FILE':
-					#TODO show drop['previewSmall']
-					try:
-						title = base64.b64decode(drop['title'])
-					except Exception:
-						pass
-					
 				title = (title[:27] + '...') if len(title) > 30 else title
 
 				menuitem = gtk.MenuItem(title)
