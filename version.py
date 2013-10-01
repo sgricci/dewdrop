@@ -6,7 +6,7 @@ import StringIO
 import simplejson as json
 import notify
 
-APP_VERSION = '0.10b2'
+APP_VERSION = '0.10'
 def get_version():
 	return APP_VERSION
 
