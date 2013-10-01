@@ -1,10 +1,8 @@
 #!/usr/bin/env python
 import pygtk
 pygtk.require('2.0')
-
 import gtk
 import gobject
-
 gobject.threads_init()
 from windows.about import About
 from windows.noteWindow import NoteWindow
@@ -36,7 +34,7 @@ class DewDrop:
 			assert icons.has_icon(app_icon)
 		except AssertionError:
 			app_icon = "/tmp/tray.png"
-			icon = pkg_resources.resource_string(__name__, 'resources/tray/white.png')
+			icon = pkg_resources.resource_string(__name__, 'windows/resources/tray/white.png')
 			f = open(app_icon, "w")
 			f.write(icon)
 			f.close()

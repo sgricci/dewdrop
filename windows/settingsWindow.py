@@ -11,11 +11,11 @@ class SettingsWindow:
 
 		self.builder = gtk.Builder()
 
-		self.builder.add_from_string(pkg_resources.resource_string(__name__, "../data/ui/settings.glade"))
+		self.builder.add_from_string(pkg_resources.resource_string(__name__, "/data/ui/settings.glade"))
 		self.builder.connect_signals(self)
 
 		loader = gtk.gdk.PixbufLoader('png')
-		loader.write(pkg_resources.resource_string(__name__, "../resources/icon/dewdrop-128-black.png"))
+		loader.write(pkg_resources.resource_string(__name__, "/resources/icon/dewdrop-128-black.png"))
 		loader.close()
 		icons = gtk.IconTheme()
 		app_icon = "tray"
@@ -23,7 +23,7 @@ class SettingsWindow:
 			assert icons.has_icon(app_icon)
 		except AssertionError:
 			app_icon = "/tmp/tray.png"
-			icon = pkg_resources.resource_string(__name__, '../resources/tray/white.png')
+			icon = pkg_resources.resource_string(__name__, '/resources/tray/white.png')
 			f = open(app_icon, "w")
 			f.write(icon)
 			f.close()

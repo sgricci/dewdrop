@@ -2,6 +2,9 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
+import gobject
+gobject.threads_init()
+
 import pkg_resources
 import sys
 from urlparse import urlparse
@@ -11,6 +14,9 @@ import cairo
 import gobject
 from math import pi
 import dewdrop
+from threading import Thread
+import threading
+import thread
 
 class DropWindow:
 
@@ -29,11 +35,11 @@ class DropWindow:
 
 		self.builder = gtk.Builder()
 
-		self.builder.add_from_string(pkg_resources.resource_string(__name__, "../data/ui/drop.glade"))
+		self.builder.add_from_string(pkg_resources.resource_string(__name__, "/data/ui/drop.glade"))
 		self.builder.connect_signals(self)
 
 		loader = gtk.gdk.PixbufLoader('png')
-		loader.write(pkg_resources.resource_string(__name__, "../resources/tray/white.png"))
+		loader.write(pkg_resources.resource_string(__name__, "/resources/tray/white.png"))
 		loader.close()
 		icons = gtk.IconTheme()
 		app_icon = "tray"
@@ -41,7 +47,7 @@ class DropWindow:
 			assert icons.has_icon(app_icon)
 		except AssertionError:
 			app_icon = "/tmp/tray.png"
-			icon = pkg_resources.resource_string(__name__, '../resources/tray/white.png')
+			icon = pkg_resources.resource_string(__name__, '/resources/tray/white.png')
 			f = open(app_icon, "w")
 			f.write(icon)
 			f.close()

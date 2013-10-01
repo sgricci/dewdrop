@@ -18,7 +18,7 @@ class About:
 		self.about.set_comments("DewDrop is an Open Source Droplr client for Linux\n\nThe source code is available: http://github.com/sgricci/dewdrop")
 		self.about.set_website("http://dewdropapp.tumblr.com")
 		loader = gtk.gdk.PixbufLoader('png')
-		loader.write(pkg_resources.resource_string(__name__, "../resources/icon/dewdrop-128-black.png"))
+		loader.write(pkg_resources.resource_string(__name__, "/resources/icon/dewdrop-128-black.png"))
 		loader.close()
 		self.about.set_logo(loader.get_pixbuf())
 	def show(self):

@@ -15,7 +15,7 @@ def show(link):
 		assert icons.has_icon(app_icon)
 	except AssertionError:
 		app_icon = "/tmp/dewdrop.png"
-		icon = pkg_resources.resource_string(__name__, 'resources/tray/white.png')
+		icon = pkg_resources.resource_string(__name__, 'windows/resources/tray/white.png')
 		f = open(app_icon, "w")
 		f.write(icon)
 		f.close()
@@ -32,7 +32,7 @@ def update(link):
 		assert icons.has_icon(app_icon)
 	except AssertionError:
 		app_icon = "/tmp/dewdrop.png"
-		icon = pkg_resources.resource_string(__name__, 'resources/tray/white.png')
+		icon = pkg_resources.resource_string(__name__, 'windows/resources/tray/white.png')
 		f = open(app_icon, "w")
 		f.write(icon)
 		f.close()
