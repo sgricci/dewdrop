@@ -136,11 +136,25 @@ class DewDrop:
 				menuitem.connect("activate", self.open_drop, drop['shortlink'])
 				menu.append(menuitem)
 
+			
+			separator = gtk.SeparatorMenuItem()
+			separator.show()
+			menu.append(separator)
+
+			show_all = gtk.MenuItem("View All Drops")
+			show_all.show()
+			show_all.connect("activate", self.view_all_drops)
+			menu.append(show_all)
+
 			self.recent.set_submenu(menu)
 	
 	def open_drop(self, widget, link):
 		# open link in browser
 		webbrowser.open(link)
+	
+	def view_all_drops(self, widget):
+		# open droplr.com in browser
+		webbrowser.open("http://droplr.com")
 
 	def upload_file_and_notify(self, filename):
 		rtn = self.dapi.upload(filename)
