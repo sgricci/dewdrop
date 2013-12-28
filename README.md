@@ -13,7 +13,16 @@ DewDrop - A Linux Droplr Client
 # TODOs
 * Work with Droplr Pro domains
 * Add to Ubuntu Software Center
-* Only use App Indicator when necessary
+* Add to pip
+* Settings window
+	a. Start At Login
+	b. Keyboard shortcut to take screenshot
+* Ability to escape out of taking a screenshot
+* Taking a screenshot should change the mouse pointer
+* Ability to close drop window
+* Show view count next to recent drops
+* Show drop preview next to drop in recent items on hover
+* Cache recent entries for 30 minutes (or until a new upload happens locally)
 
 # License
 GPL v2
