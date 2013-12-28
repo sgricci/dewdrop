@@ -15,7 +15,12 @@ import sys
 from shot import Shot
 import pkg_resources
 import time
-import appindicator
+try:
+	import appindicator
+	USE_APP_INDICATOR = True
+except ImportError:
+	USE_APP_INDICATOR = False
+
 import base64
 import webbrowser
 from threading import Thread
@@ -40,10 +45,15 @@ class DewDrop:
 			f.close()
 		
 		if not hasattr(self._app, 'statusIcon'):
-			self._app.statusIcon = appindicator.Indicator('Dewdrop', app_icon, appindicator.CATEGORY_APPLICATION_STATUS)
-		self._app.statusIcon.set_status(appindicator.STATUS_ACTIVE)
+			if USE_APP_INDICATOR:
+				self._app.statusIcon = appindicator.Indicator('Dewdrop', app_icon, appindicator.CATEGORY_APPLICATION_STATUS)
+				self._app.statusIcon.set_status(appindicator.STATUS_ACTIVE)
+			else:
+				self._app.statusIcon = gtk.StatusIcon()
+				self._app.statusIcon.set_from_file(app_icon)
 
 		self.init_menu()
+
 
 		self.dapi = DAPI()
 		self.dapi.auth(self._app._cfg.get('email'), self._app._cfg.get('passhash'))
@@ -51,6 +61,7 @@ class DewDrop:
 		self.show_hide_drop()
 
 		gtk.main()
+
 
 	def init_menu(self):
 		menu = gtk.Menu()
@@ -102,10 +113,20 @@ class DewDrop:
 		menu.append(about)
 		menu.append(logout)
 		menu.append(quit)
-		self._app.statusIcon.set_menu(menu)
+		if USE_APP_INDICATOR:
+			self._app.statusIcon.set_menu(menu)
+		else: 
+			self._app.statusIcon.connect('popup-menu', self.popup, menu)
 
 		menu.connect("show", self.show_recent)
+		return menu
 
+	def popup(self, widget, button, time, data = None):
+		if button == 3:
+			if data:
+				data.show_all()
+				data.popup(None, None, gtk.status_icon_position_menu,
+					3, time, self._app.statusIcon)
 
 	def hide(self):
 		# close open windows
@@ -113,8 +134,9 @@ class DewDrop:
 		for window in window_list:
 			if gtk.WINDOW_TOPLEVEL == window.get_window_type():
 				window.destroy()
-		self._app.statusIcon.set_status(appindicator.STATUS_PASSIVE)
-		self._app.statusIcon.get_menu().destroy()
+		if USE_APP_INDICATOR:
+			self._app.statusIcon.set_status(appindicator.STATUS_PASSIVE)
+			self._app.statusIcon.get_menu().destroy()
 		gtk.main_quit()
 
 
