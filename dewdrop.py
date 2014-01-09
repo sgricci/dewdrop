@@ -186,12 +186,19 @@ class DewDrop:
 
 		gtk.threads_enter()
 		try:
-			shortlink = rtn.get_message()['shortlink']
+			shortlink = self.format_link(rtn.get_message())
 			gobject.idle_add(notify.show, shortlink)
 			gobject.idle_add(self.copy_to_clipboard, shortlink)
 		finally:
 			gtk.threads_leave()
 		return
+
+	def format_link(self, message):
+		if message['privacy'] == 'PUBLIC':
+			return message['shortlink']
+		return "%s/%s" % (message['shortlink'], message['password'])
+
+
 
 	def copy_to_clipboard(self, shortlink):
 		clip = gtk.clipboard_get()
